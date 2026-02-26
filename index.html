@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דוח שיחת מכירה — בצלאל (ירדן 2)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; padding: 40px 20px; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 48px; }
+  .header .label { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #8b5cf6; margin-bottom: 12px; }
+  .header h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .header .subtitle { color: #888; font-size: 14px; }
+
+  /* AUDIO PLAYER */
+  .audio-section { background: linear-gradient(135deg, #12121f, #1a1030); border: 1px solid #4c1d95; border-radius: 16px; padding: 24px 28px; margin-bottom: 32px; }
+  .audio-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #8b5cf6; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .audio-label::after { content: ''; flex: 1; height: 1px; background: #2a2a4a; }
+  .audio-title { font-size: 16px; color: #fff; font-weight: 600; margin-bottom: 16px; }
+  audio { width: 100%; border-radius: 8px; outline: none; filter: invert(1) hue-rotate(180deg) brightness(0.8); }
+
+  /* INSIGHT BANNER */
+  .insight-banner { background: linear-gradient(135deg, #0f2010, #0a1a1a); border: 1px solid #166534; border-radius: 14px; padding: 20px 28px; margin-bottom: 32px; display: flex; gap: 16px; align-items: center; }
+  .insight-icon { font-size: 32px; flex-shrink: 0; }
+  .insight-text h3 { color: #34d399; font-size: 16px; margin-bottom: 6px; }
+  .insight-text p { color: #aaa; font-size: 13px; line-height: 1.7; }
+
+  /* SCORE */
+  .score-card { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid #2a2a4a; border-radius: 20px; padding: 36px; margin-bottom: 32px; display: flex; align-items: center; gap: 40px; }
+  .score-ring { flex-shrink: 0; position: relative; width: 120px; height: 120px; }
+  .score-ring svg { width: 120px; height: 120px; transform: rotate(-90deg); }
+  .score-ring circle { fill: none; stroke-width: 8; }
+  .score-ring .bg { stroke: #2a2a4a; }
+  .score-ring .fill { stroke: #34d399; stroke-linecap: round; stroke-dasharray: 283; stroke-dashoffset: 85; }
+  .score-number { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 30px; font-weight: 800; color: #34d399; }
+  .score-number span { font-size: 14px; color: #888; }
+  .score-text h2 { font-size: 22px; color: #fff; margin-bottom: 8px; }
+  .score-text p { color: #aaa; font-size: 14px; line-height: 1.7; }
+
+  .section-title { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #8b5cf6; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: #2a2a4a; }
+
+  /* SUMMARY */
+  .summary-box { background: #12121f; border-right: 4px solid #34d399; border-radius: 12px; padding: 24px 28px; margin-bottom: 32px; font-size: 15px; line-height: 1.9; color: #ccc; }
+  .summary-box .tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #34d399; margin-bottom: 10px; display: block; }
+
+  /* PROFILE */
+  .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+  .profile-card { background: #12121f; border: 1px solid #2a2a4a; border-radius: 12px; padding: 18px; text-align: center; }
+  .profile-card .icon { font-size: 24px; margin-bottom: 8px; }
+  .profile-card .val { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .profile-card .lbl { font-size: 12px; color: #666; }
+
+  /* PAIN POINTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+  .pain-card { background: #12121f; border: 1px solid #2a2a4a; border-radius: 12px; padding: 18px; display: flex; gap: 12px; align-items: flex-start; }
+  .pain-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .pain-card h4 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .pain-card p { font-size: 12px; color: #888; line-height: 1.6; }
+
+  /* OBJECTIONS */
+  .objection-item { background: #12121f; border: 1px solid #2a2a4a; border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 14px; }
+  .obj-badge { flex-shrink: 0; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-top: 2px; white-space: nowrap; }
+  .obj-badge.red { background: #2d1b1b; color: #f87171; }
+  .obj-badge.yellow { background: #2d2a1b; color: #fbbf24; }
+  .obj-badge.green { background: #1a2e1a; color: #34d399; }
+  .objection-item p { font-size: 13px; color: #ccc; line-height: 1.7; }
+  .obj-response { font-size: 12px; color: #555; margin-top: 6px; }
+  .obj-response .bad { color: #f87171; }
+  .obj-response .ok { color: #fbbf24; }
+  .obj-response .good { color: #34d399; }
+
+  /* S&W */
+  .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .sw-card { background: #12121f; border: 1px solid #2a2a4a; border-radius: 14px; padding: 22px; }
+  .sw-card.green { border-top: 3px solid #34d399; }
+  .sw-card.red { border-top: 3px solid #f87171; }
+  .sw-card h3 { font-size: 14px; margin-bottom: 14px; }
+  .sw-card.green h3 { color: #34d399; }
+  .sw-card.red h3 { color: #f87171; }
+  .sw-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: 13px; color: #bbb; line-height: 1.6; align-items: flex-start; }
+  .sw-dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; margin-top: 7px; }
+  .green .sw-dot { background: #34d399; }
+  .red .sw-dot { background: #f87171; }
+
+  /* GOLD QUOTE */
+  .quote-box { background: linear-gradient(135deg, #1a1a2e, #1e1b4b); border: 1px solid #4c1d95; border-radius: 14px; padding: 30px 32px; margin-bottom: 32px; text-align: center; }
+  .quote-box .quote-mark { font-size: 60px; color: #8b5cf6; line-height: 0.6; display: block; margin-bottom: 20px; opacity: 0.4; }
+  .quote-box blockquote { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 16px; line-height: 1.6; }
+  .quote-box p { color: #888; font-size: 13px; }
+
+  /* MISSED MOMENT */
+  .missed-box { background: #1a1a1a; border: 1px solid #374151; border-radius: 14px; padding: 24px; margin-bottom: 32px; }
+  .missed-box h4 { color: #fbbf24; font-size: 14px; margin-bottom: 16px; }
+  .dialogue { display: flex; flex-direction: column; gap: 10px; }
+  .d-row { display: flex; gap: 10px; }
+  .d-bubble { padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.6; max-width: 85%; }
+  .d-bubble.actual { background: #1f0f0f; color: #f87171; border: 1px solid #7f1d1d; }
+  .d-bubble.better { background: #0f1f0f; color: #34d399; border: 1px solid #166534; }
+  .d-label { font-size: 10px; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* TIP */
+  .tip-box { background: linear-gradient(135deg, #1a1a1a, #1c1a0f); border: 1px solid #78350f; border-radius: 14px; padding: 28px 32px; margin-bottom: 32px; }
+  .tip-box .tip-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #f59e0b; margin-bottom: 12px; display: block; }
+  .tip-box h3 { font-size: 18px; color: #fff; margin-bottom: 12px; }
+  .tip-box p { color: #aaa; font-size: 14px; line-height: 1.8; }
+  .tip-quote { background: #141200; border-right: 3px solid #f59e0b; padding: 14px 18px; border-radius: 8px; margin-top: 16px; font-size: 14px; color: #fef3c7; font-style: italic; }
+
+  /* WIN BOX */
+  .win-box { background: linear-gradient(135deg, #0a1f0f, #0f2010); border: 1px solid #166534; border-radius: 14px; padding: 24px 28px; margin-bottom: 32px; }
+  .win-box .win-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #34d399; margin-bottom: 12px; display: block; }
+  .win-box h3 { font-size: 17px; color: #fff; margin-bottom: 10px; }
+  .win-box p { color: #aaa; font-size: 14px; line-height: 1.8; }
+
+  /* SENIORITY TABLE */
+  .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  .compare-table th { background: #12121f; padding: 12px 16px; font-size: 12px; color: #888; text-align: right; border-bottom: 1px solid #2a2a4a; }
+  .compare-table td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #1a1a2e; color: #ccc; vertical-align: top; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table td:first-child { color: #888; font-size: 12px; white-space: nowrap; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .badge.red { background: #2d1b1b; color: #f87171; }
+  .badge.green { background: #1a2e1a; color: #34d399; }
+  .badge.yellow { background: #2d2a1b; color: #fbbf24; }
+  .badge.purple { background: #2e1b4b; color: #a78bfa; }
+
+  .footer { text-align: center; color: #333; font-size: 12px; margin-top: 40px; }
+
+  @media (max-width: 640px) {
+    .score-card { flex-direction: column; align-items: center; text-align: center; }
+    .grid-2, .sw-grid, .profile-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="label">דוח ניתוח שיחת מכירה</div>
+    <h1>לקוח: בצלאל · בן 20 · חייל משוחרר פצוע</h1>
+    <div class="subtitle">נציג: ירדן · שיחת גיוס ראשונית · נסגרה על קורס חינמי</div>
+  </div>
+
+  <!-- AUDIO PLAYER -->
+  <div class="audio-section">
+    <div class="audio-label">הקלטת השיחה</div>
+    <div class="audio-title">ירדן × בצלאל — שיחת גיוס ראשונית</div>
+    <audio controls preload="metadata">
+      <source src="recording.mp3" type="audio/mpeg">
+      הדפדפן שלך אינו תומך בנגן שמע.
+    </audio>
+  </div>
+
+  <!-- INSIGHT BANNER -->
+  <div class="insight-banner">
+    <div class="insight-icon">🎯</div>
+    <div class="insight-text">
+      <h3>שיחה טובה — ראפור, חפירת כאב, וסגירה על קורס חינמי</h3>
+      <p>ירדן ניהל שיחה מובנית יפה עם בצלאל. הוא בנה ראפור אנושי (אופנועים, שיקום), חפר בכאב של 3-4 שנים של חיפוש חירות, השתמש בפריים "אנשי המתישהו", והגיע לסגירה על קורס חינמי ב-48 שעות. חסרות: אנכור מחיר חזק יותר ו-next step מוגדר לאחר הקורס.</p>
+    </div>
+  </div>
+
+  <!-- SCORE -->
+  <div class="score-card">
+    <div class="score-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="45"/>
+        <circle class="fill" cx="50" cy="50" r="45"/>
+      </svg>
+      <div class="score-number">7<span>/10</span></div>
+    </div>
+    <div class="score-text">
+      <h2>ביצועי איש המכירות</h2>
+      <p>ביצוע מכובד. ירדן שמר על שיחה ממוקדת, בנה אמון, חפר בכאב של "לא לשבת במשרד" לעומק, השתמש בסיפור "אנשי המתישהו" ביעילות, ופתח בצלאל עם קורס חינמי. נקודות לשיפור: סגירה יותר אסרטיבית ומחויבות לפגישה המשך.</p>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <span class="tag">סיכום מנהלים</span>
+    בצלאל, בן 20, חייל שנפצע בחניון (חטיבה 16), כרגע בין שיקום לצבא ובבית. גר במושב ליד מודיעין (ברוך אורון). רווק, אוהב אופנועי שטח, לא רוצה עבודת משרד. חיפש 3-4 שנים דרך להכנסה שלא כוללת 8-9 שעות ביום. ירדן ניהל שיחה טובה — בנה ראפור על אופנועים, חפר את הכאב של "חופש לעומת משרד", השתמש ב"אנשי המתישהו", ושלח גישה ל-48 שעות לקורס חינם. הפוטנציאל גבוה — ליד חם.
+  </div>
+
+  <!-- PROFILE -->
+  <div class="section-title">פרופיל הלקוח</div>
+  <div class="profile-grid">
+    <div class="profile-card"><div class="icon">🪖</div><div class="val">חייל פצוע</div><div class="lbl">חטיבה 16</div></div>
+    <div class="profile-card"><div class="icon">🎂</div><div class="val">20</div><div class="lbl">גיל</div></div>
+    <div class="profile-card"><div class="icon">🏡</div><div class="val">ברוך אורון</div><div class="lbl">מושב ליד מודיעין</div></div>
+    <div class="profile-card"><div class="icon">🏍️</div><div class="val">אופנוע שטח</div><div class="lbl">תחביב עיקרי</div></div>
+    <div class="profile-card"><div class="icon">🌙</div><div class="val">11-12 לילה</div><div class="lbl">שעות פנויות</div></div>
+    <div class="profile-card"><div class="icon">🔥</div><div class="val">ליד חם</div><div class="lbl">קיבל קורס חינם</div></div>
+  </div>
+
+  <!-- PAIN POINTS -->
+  <div class="section-title">נקודות כאב שנחפרו</div>
+  <div class="grid-2">
+    <div class="pain-card">
+      <div class="pain-icon">🏢</div>
+      <div><h4>שנאה למשרד ולשגרה</h4><p>"אני רואה אנשים יושבים במשרד ולא בשבילי... לא מסוגל לעשות אותו דבר במשך תקופות ארוכות" — כאב עמוק וברור.</p></div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">⏳</div>
+      <div><h4>3-4 שנים של חיפוש</h4><p>"כבר המון זמן, פשוט לא מצאתי משהו שאני יכול לעשות כמו שצריך" — חיפש פתרון שנים ולא מצא.</p></div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🌙</div>
+      <div><h4>שעות לא סטנדרטיות</h4><p>זמן פנוי רק ב-11-12 בלילה — חסם שמנע ממנו להתקדם בכל הניסיונות הקודמים.</p></div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">💡</div>
+      <div><h4>תיאוריה ללא יישום</h4><p>"ניסיתי ללמוד, ראיתי שאין מספיק מידע זמין... הרגשתי חוסר בהדרכה מעשית" — ניסה לבד ונכשל.</p></div>
+    </div>
+  </div>
+
+  <!-- WIN BOX -->
+  <div class="win-box">
+    <span class="win-label">רגע מכירה מצוין</span>
+    <h3>פריים "אנשי המתישהו" — שימוש מעולה</h3>
+    <p>ירדן הציג את הקטגוריה של "אנשי המתישהו — אחרי החגים, אחרי הצבא, מתישהו" והשאיל את בצלאל מהמקום שבו הוא היה ממש — מישהו שניסה פעמים ולא המשיך. בצלאל הגיב בצורה מחויבת ואמר שכשמשהו חשוב לו הוא עושה אותו. זה הרגע שפתח את הדלת לקורס החינמי.</p>
+  </div>
+
+  <!-- OBJECTIONS -->
+  <div class="section-title">התנגדויות ואיך הן טופלו</div>
+  <div style="margin-bottom: 32px;">
+    <div class="objection-item">
+      <div class="obj-badge green">טופל היטב</div>
+      <div>
+        <p>"ביטלתי, בדקתי ולא עובד" — בצלאל פתח בסגירה מוקדמת</p>
+        <div class="obj-response"><span class="good">תגובת ירדן:</span> לא קיבל את הלא. הסביר שהמידע שמזרימים הוא על אנשים שנכשלו בלי נוסחה. חזר לכאב.</div>
+      </div>
+    </div>
+    <div class="objection-item">
+      <div class="obj-badge green">טופל היטב</div>
+      <div>
+        <p>"הזמן הפנוי שלי הוא רק ב-11-12 בלילה — כל ההדרכות הן בשעות שלא מתאימות"</p>
+        <div class="obj-response"><span class="good">תגובת ירדן:</span> הסביר שהקורס מוקלט ואפשר לצפות מתי שרוצים. ציין מנטור זמין, ו-AI 24/7.</div>
+      </div>
+    </div>
+    <div class="objection-item">
+      <div class="obj-badge yellow">חלקית</div>
+      <div>
+        <p>"אני לא יודע מה זה e-commerce" — חסר ידע מוצהר</p>
+        <div class="obj-response"><span class="ok">תגובת ירדן:</span> הסביר את הדרופשיפינג ומודל החנות. הסבר בסיסי, עבד.</div>
+      </div>
+    </div>
+    <div class="objection-item">
+      <div class="obj-badge yellow">חסר</div>
+      <div>
+        <p>לא נוצרה דחיפות ברורה לסגירה כספית בסוף</p>
+        <div class="obj-response"><span class="ok">הערה:</span> הסגירה הייתה על קורס חינמי ב-48 שעות — נכון לשלב, אבל ה-next step לפגישה המשך לא הוגדר מספיק.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STRENGTHS & WEAKNESSES -->
+  <div class="section-title">חוזקות ופערים</div>
+  <div class="sw-grid">
+    <div class="sw-card green">
+      <h3>✅ מה עבד</h3>
+      <div class="sw-item"><div class="sw-dot"></div><div>ראפור אנושי מצוין — אופנועים, שיקום, גיל</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>לא קיבל את הלא הראשון — חזר לשיחה</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>חפירת כאב מעמיקה (3-4 שנים, "לא משרד")</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>פריים "אנשי המתישהו" — יעיל מאוד</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>טיפול חכם בהתנגדות השעות — קורס מוקלט + AI</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>סגירה על קורס חינם ב-48 שעות</div></div>
+    </div>
+    <div class="sw-card red">
+      <h3>❌ מה לא עבד</h3>
+      <div class="sw-item"><div class="sw-dot"></div><div>לא נוצר next step ברור לאחר הקורס החינמי</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>לא נאמר "אני אתקשר אליך ביום X לאחר שתסיים"</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>שאלת "כמה זמן לוקח הקורס?" של בצלאל לא קיבלה תשובה ישירה</div></div>
+      <div class="sw-item"><div class="sw-dot"></div><div>לא בוצעה הצגת מחיר עם עיגון (למקרה שיהיה מוכן בסוף)</div></div>
+    </div>
+  </div>
+
+  <!-- GOLD QUOTE -->
+  <div class="section-title">ציטוט זהב מהלקוח</div>
+  <div class="quote-box">
+    <span class="quote-mark">"</span>
+    <blockquote>אני לא רואה את עצמי עובד כל היום. זה אחד הדברים הכי חשובים לי — שאני יכול ליהנות מהזמן הפנוי ולא לשרוף אותו לשבת במשרד</blockquote>
+    <p>זה לא רק מה שבצלאל רוצה — זה מה שהוא מוכן לשלם עבורו. ירדן חפר נכון ובצלאל אמר את זה בעצמו.</p>
+  </div>
+
+  <!-- MISSED MOMENT -->
+  <div class="missed-box">
+    <h4>⚡ רגע שניתן לחזק — לאחר שנשלח הקורס</h4>
+    <div class="dialogue">
+      <div class="d-row">
+        <div>
+          <div class="d-label">מה נאמר (ירדן)</div>
+          <div class="d-bubble actual">תקשיב, אני שולח לך את ההדרכה. תראה אותה ותכתוב לי הודעה אחרי שאתה מסיים.</div>
+        </div>
+      </div>
+      <div class="d-row" style="justify-content: flex-end;">
+        <div>
+          <div class="d-label" style="text-align: left;">מה היה צריך להיאמר</div>
+          <div class="d-bubble better">אני שולח לך את ההדרכה — היא שעה. תראה אותה הלילה. מחר ב-11 בלילה תשלח לי הודעה כמה דקות אחרי שתתחיל, ואני כבר מסדר לנו שיחה ביום X לסיכום. בסדר?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIP BOX -->
+  <div class="tip-box">
+    <span class="tip-label">המלצת אימון מרכזית</span>
+    <h3>אחרי כל "קורס חינמי" — חייב להיות מועד ספציפי</h3>
+    <p>ירדן סגר היטב על הקורס החינמי, אבל לא נתן ל-next step תאריך ושעה. כשלא יש מחויבות זמן, בצלאל "יסתכל על זה בהמשך" — ויש סיכוי גבוה שלא יראה. ירדן צריך לסגור כל שיחה עם: "אני מדבר איתך ב-[יום] ב-[שעה] — מה שמתאים לך?"</p>
+    <div class="tip-quote">הכלל: לא יוצאים משיחה בלי שיש תאריך ושעה לשיחה הבאה. גם אם זה רק "אני שולח לך הודעה ב-10 בלילה ביום שלישי".</div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="section-title">השוואת ביצועים למול סטנדרט</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>קריטריון</th>
+        <th>מה קרה בפועל</th>
+        <th>סטנדרט נדרש</th>
+        <th>מצב</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>בניית ראפור</td>
+        <td>מצוין — אופנועים, שיקום, גיל</td>
+        <td>בניית חיבור אנושי ראשוני</td>
+        <td><span class="badge green">מצוין</span></td>
+      </tr>
+      <tr>
+        <td>חפירת כאב</td>
+        <td>3-4 שנות חיפוש, שנאת משרד</td>
+        <td>3-4 שאלות עומק לפחות</td>
+        <td><span class="badge green">בוצע</span></td>
+      </tr>
+      <tr>
+        <td>טיפול בהתנגדות שעות</td>
+        <td>קורס מוקלט, AI, מנטור</td>
+        <td>מענה מלא על החסם</td>
+        <td><span class="badge green">בוצע</span></td>
+      </tr>
+      <tr>
+        <td>שימוש בפריים</td>
+        <td>"אנשי המתישהו" — יעיל</td>
+        <td>פריים שמשנה נקודת מבט</td>
+        <td><span class="badge green">מצוין</span></td>
+      </tr>
+      <tr>
+        <td>סגירה ראשונית</td>
+        <td>קורס חינמי 48 שעות</td>
+        <td>מחויבות ברורה</td>
+        <td><span class="badge yellow">חלקי</span></td>
+      </tr>
+      <tr>
+        <td>next step מוגדר</td>
+        <td>לא נקבע מועד ספציפי</td>
+        <td>תאריך + שעה לשיחה הבאה</td>
+        <td><span class="badge red">חסר</span></td>
+      </tr>
+      <tr>
+        <td>הצגת מחיר / ערך</td>
+        <td>הוזכר בקצרה</td>
+        <td>עיגון ערך מלא</td>
+        <td><span class="badge yellow">חלקי</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">הופק ע"י מערכת ניתוח שיחות מכירה | אביב מלכה · Ecom Club</div>
+</div>
+</body>
+</html>
