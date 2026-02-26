@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דוח שיחת מכירה — נדב</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#0f0f1a; color:#e0e0e0; min-height:100vh; padding:40px 20px; }
+  .container { max-width:900px; margin:0 auto; }
+
+  .header { text-align:center; margin-bottom:48px; }
+  .header .label { font-size:12px; letter-spacing:3px; text-transform:uppercase; color:#8b5cf6; margin-bottom:12px; }
+  .header h1 { font-size:32px; font-weight:700; color:#fff; margin-bottom:8px; }
+  .header .subtitle { color:#888; font-size:14px; }
+
+  .audio-section { background:linear-gradient(135deg,#12121f,#1a1030); border:1px solid #4c1d95; border-radius:16px; padding:24px 28px; margin-bottom:32px; }
+  .audio-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8b5cf6; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .audio-label::after { content:''; flex:1; height:1px; background:#2a2a4a; }
+  .audio-title { font-size:16px; color:#fff; font-weight:600; margin-bottom:16px; }
+  audio { width:100%; border-radius:8px; outline:none; filter:invert(1) hue-rotate(180deg) brightness(0.8); }
+
+  .insight-banner { background:linear-gradient(135deg,#1c1a0f,#1c1a0fdd); border:1px solid #78350f; border-radius:14px; padding:20px 28px; margin-bottom:32px; display:flex; gap:16px; align-items:center; }
+  .insight-icon { font-size:32px; flex-shrink:0; }
+  .insight-text h3 { color:#fbbf24; font-size:16px; margin-bottom:6px; }
+  .insight-text p { color:#aaa; font-size:13px; line-height:1.7; }
+
+  .score-card { background:linear-gradient(135deg,#1a1a2e,#16213e); border:1px solid #2a2a4a; border-radius:20px; padding:36px; margin-bottom:32px; display:flex; align-items:center; gap:40px; }
+  .score-ring { flex-shrink:0; position:relative; width:120px; height:120px; }
+  .score-ring svg { width:120px; height:120px; transform:rotate(-90deg); }
+  .score-ring circle { fill:none; stroke-width:8; }
+  .score-ring .bg { stroke:#2a2a4a; }
+  .score-ring .fill { stroke:#fbbf24; stroke-linecap:round; stroke-dasharray:283; stroke-dashoffset:142; }
+  .score-number { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:30px; font-weight:800; color:#fbbf24; }
+  .score-number span { font-size:14px; color:#888; }
+  .score-text h2 { font-size:22px; color:#fff; margin-bottom:8px; }
+  .score-text p { color:#aaa; font-size:14px; line-height:1.7; }
+
+  .section-title { font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#8b5cf6; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .section-title::after { content:''; flex:1; height:1px; background:#2a2a4a; }
+
+  .summary-box { background:#12121f; border-right:4px solid #fbbf24; border-radius:12px; padding:24px 28px; margin-bottom:32px; font-size:15px; line-height:1.9; color:#ccc; }
+  .summary-box .tag { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#fbbf24; margin-bottom:10px; display:block; }
+
+  .profile-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:32px; }
+  .profile-card { background:#12121f; border:1px solid #2a2a4a; border-radius:12px; padding:18px; text-align:center; }
+  .profile-card .icon { font-size:24px; margin-bottom:8px; }
+  .profile-card .val { font-size:15px; font-weight:700; color:#fff; margin-bottom:4px; }
+  .profile-card .lbl { font-size:12px; color:#666; }
+
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:32px; }
+  .pain-card { background:#12121f; border:1px solid #2a2a4a; border-radius:12px; padding:18px; display:flex; gap:12px; align-items:flex-start; }
+  .pain-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+  .pain-card h4 { font-size:13px; font-weight:700; color:#fff; margin-bottom:4px; }
+  .pain-card p { font-size:12px; color:#888; line-height:1.6; }
+
+  .objection-item { background:#12121f; border:1px solid #2a2a4a; border-radius:12px; padding:16px 20px; margin-bottom:10px; display:flex; align-items:flex-start; gap:14px; }
+  .obj-badge { flex-shrink:0; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; margin-top:2px; white-space:nowrap; }
+  .obj-badge.green { background:#1a2e1a; color:#34d399; }
+  .obj-badge.yellow { background:#2d2a1b; color:#fbbf24; }
+  .obj-badge.red { background:#2d1b1b; color:#f87171; }
+  .objection-item p { font-size:13px; color:#ccc; line-height:1.7; }
+  .obj-response { font-size:12px; margin-top:6px; }
+  .obj-response .good { color:#34d399; }
+  .obj-response .ok { color:#fbbf24; }
+  .obj-response .bad { color:#f87171; }
+
+  .sw-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px; }
+  .sw-card { background:#12121f; border:1px solid #2a2a4a; border-radius:14px; padding:22px; }
+  .sw-card.green { border-top:3px solid #34d399; }
+  .sw-card.red { border-top:3px solid #f87171; }
+  .sw-card h3 { font-size:14px; margin-bottom:14px; }
+  .sw-card.green h3 { color:#34d399; }
+  .sw-card.red h3 { color:#f87171; }
+  .sw-item { display:flex; gap:10px; margin-bottom:10px; font-size:13px; color:#bbb; line-height:1.6; align-items:flex-start; }
+  .sw-dot { flex-shrink:0; width:6px; height:6px; border-radius:50%; margin-top:7px; }
+  .green .sw-dot { background:#34d399; }
+  .red .sw-dot { background:#f87171; }
+
+  .quote-box { background:linear-gradient(135deg,#1a1a2e,#1e1b4b); border:1px solid #4c1d95; border-radius:14px; padding:30px 32px; margin-bottom:32px; text-align:center; }
+  .quote-mark { font-size:60px; color:#8b5cf6; line-height:0.6; display:block; margin-bottom:20px; opacity:0.4; }
+  .quote-box blockquote { font-size:20px; font-weight:700; color:#fff; margin-bottom:16px; line-height:1.6; }
+  .quote-box p { color:#888; font-size:13px; }
+
+  .missed-box { background:#1a1a1a; border:1px solid #374151; border-radius:14px; padding:24px; margin-bottom:32px; }
+  .missed-box h4 { color:#fbbf24; font-size:14px; margin-bottom:16px; }
+  .dialogue { display:flex; flex-direction:column; gap:10px; }
+  .d-row { display:flex; gap:10px; }
+  .d-bubble { padding:10px 14px; border-radius:10px; font-size:13px; line-height:1.6; max-width:85%; }
+  .d-bubble.actual { background:#1f0f0f; color:#f87171; border:1px solid #7f1d1d; }
+  .d-bubble.better { background:#0f1f0f; color:#34d399; border:1px solid #166534; }
+  .d-label { font-size:10px; color:#555; margin-bottom:4px; text-transform:uppercase; letter-spacing:1px; }
+
+  .tip-box { background:linear-gradient(135deg,#1a1a1a,#1c1a0f); border:1px solid #78350f; border-radius:14px; padding:28px 32px; margin-bottom:32px; }
+  .tip-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#f59e0b; margin-bottom:12px; display:block; }
+  .tip-box h3 { font-size:18px; color:#fff; margin-bottom:12px; }
+  .tip-box p { color:#aaa; font-size:14px; line-height:1.8; }
+  .tip-quote { background:#141200; border-right:3px solid #f59e0b; padding:14px 18px; border-radius:8px; margin-top:16px; font-size:14px; color:#fef3c7; font-style:italic; }
+
+  .compare-table { width:100%; border-collapse:collapse; margin-bottom:32px; }
+  .compare-table th { background:#12121f; padding:12px 16px; font-size:12px; color:#888; text-align:right; border-bottom:1px solid #2a2a4a; }
+  .compare-table td { padding:12px 16px; font-size:13px; border-bottom:1px solid #1a1a2e; color:#ccc; vertical-align:top; }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .compare-table td:first-child { color:#888; font-size:12px; white-space:nowrap; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:700; }
+  .badge.red { background:#2d1b1b; color:#f87171; }
+  .badge.green { background:#1a2e1a; color:#34d399; }
+  .badge.yellow { background:#2d2a1b; color:#fbbf24; }
+
+  .coi-box { background:linear-gradient(135deg,#1a0f0f,#200a0a); border:1px solid #7f1d1d; border-radius:14px; padding:28px 32px; margin-bottom:32px; }
+  .coi-box .coi-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#f87171; margin-bottom:12px; display:block; }
+  .coi-box h3 { font-size:18px; color:#fff; margin-bottom:16px; }
+  .coi-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+  .coi-item { background:#1a0808; border-radius:10px; padding:14px 16px; }
+  .coi-item .lbl { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#888; margin-bottom:6px; }
+  .coi-item p { font-size:13px; color:#ccc; line-height:1.7; }
+  .coi-frame { background:#2d0f0f; border-right:3px solid #f87171; border-radius:10px; padding:14px 16px; font-size:14px; color:#fca5a5; font-style:italic; line-height:1.8; }
+
+  .gap-box { background:#12121f; border:1px solid #2a2a4a; border-radius:14px; padding:24px 28px; margin-bottom:32px; }
+  .gap-quote { background:#0f0f1a; border-right:3px solid #8b5cf6; border-radius:8px; padding:12px 16px; font-size:14px; color:#c4b5fd; font-style:italic; margin-bottom:14px; line-height:1.7; }
+  .gap-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .gap-item { background:#0f0f1a; border-radius:10px; padding:12px 14px; }
+  .gap-item .lbl { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#555; margin-bottom:6px; }
+  .gap-item p { font-size:13px; color:#aaa; line-height:1.7; }
+  .gap-item.highlight { background:#0f1a0f; border-right:3px solid #34d399; }
+  .gap-item.highlight .lbl { color:#34d399; }
+  .gap-item.highlight p { color:#ccc; }
+
+  .pq-box { background:#12121f; border:1px solid #2a2a4a; border-radius:14px; padding:24px 28px; margin-bottom:32px; }
+  .pq-list { display:flex; flex-direction:column; gap:10px; }
+  .pq-item { background:#0f0f1a; border-radius:10px; padding:14px 18px; display:flex; gap:12px; align-items:flex-start; }
+  .pq-num { font-size:11px; font-weight:800; color:#8b5cf6; background:#1e1b4b; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+  .pq-item p { font-size:14px; color:#e0e0e0; line-height:1.7; font-style:italic; }
+
+  .script-box { background:#12121f; border:1px solid #2a2a4a; border-radius:14px; padding:24px 28px; margin-bottom:32px; }
+  .script-compare { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .script-original { background:#1f0f0f; border-radius:10px; padding:16px; }
+  .script-original .lbl { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#f87171; margin-bottom:8px; }
+  .script-original p { font-size:13px; color:#fca5a5; line-height:1.8; }
+  .script-sharp { background:#0f1f0f; border-radius:10px; padding:16px; border:1px solid #166534; }
+  .script-sharp .lbl { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#34d399; margin-bottom:8px; }
+  .script-sharp p { font-size:13px; color:#86efac; line-height:1.8; font-weight:600; }
+
+  .protips-box { background:linear-gradient(135deg,#0f0f1a,#1a1030); border:1px solid #4c1d95; border-radius:14px; padding:28px 32px; margin-bottom:32px; }
+  .protips-box .pt-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8b5cf6; margin-bottom:16px; display:block; }
+  .protips-box h3 { font-size:18px; color:#fff; margin-bottom:18px; }
+  .pt-list { display:flex; flex-direction:column; gap:12px; }
+  .pt-item { display:flex; gap:12px; align-items:flex-start; background:#12121f; border-radius:10px; padding:14px 16px; }
+  .pt-bullet { font-size:18px; flex-shrink:0; }
+  .pt-item p { font-size:13px; color:#c4b5fd; line-height:1.8; }
+
+  .deep-factors { display:flex; flex-direction:column; gap:14px; margin-bottom:32px; }
+  .df-card { background:#12121f; border:1px solid #2a2a4a; border-radius:14px; padding:20px 24px; }
+  .df-header { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .df-icon { font-size:22px; flex-shrink:0; }
+  .df-title { font-size:15px; font-weight:700; color:#fff; flex:1; }
+  .df-score-badge { font-size:13px; font-weight:800; padding:4px 12px; border-radius:20px; }
+  .df-score-badge.green { background:#1a2e1a; color:#34d399; }
+  .df-score-badge.yellow { background:#2d2a1b; color:#fbbf24; }
+  .df-score-badge.red { background:#2d1b1b; color:#f87171; }
+  .df-body { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .df-block { background:#0f0f1a; border-radius:10px; padding:12px 14px; }
+  .df-block-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#555; margin-bottom:6px; }
+  .df-block p { font-size:13px; color:#aaa; line-height:1.7; }
+  .df-improvement { grid-column:1/-1; background:#0f1a0f; border-right:3px solid #34d399; border-radius:10px; padding:12px 14px; }
+  .df-improvement .df-block-label { color:#34d399; }
+  .df-improvement p { color:#ccc; }
+
+  .footer { text-align:center; color:#333; font-size:12px; margin-top:40px; }
+
+  @media (max-width:640px) {
+    .score-card { flex-direction:column; align-items:center; text-align:center; }
+    .grid-2, .sw-grid, .profile-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="label">דוח ניתוח שיחת מכירה</div>
+    <h1>לקוח: נדב · בן 21 · גיוס ראשוני</h1>
+    <div class="subtitle">נציג: סער · 15 דקות</div>
+  </div>
+
+  <div class="audio-section">
+    <div class="audio-label">הקלטת השיחה</div>
+    <div class="audio-title">סער × נדב — גיוס ראשוני</div>
+    <audio controls preload="metadata">
+      <source src="avivmedia.gpbx1.tochat.co.il_archive_2026_Feb_26_6ef185ce-a628-4ecd-9dd8-dbe144864e6e.mp3" type="audio/mpeg">
+      הדפדפן שלך אינו תומך בנגן שמע.
+    </audio>
+  </div>
+
+  <div class="insight-banner">
+    <div class="insight-icon">⚠️</div>
+    <div class="insight-text">
+      <h3>הבנת הצרכים והחששות של הלקוח</h3>
+      <p>השיחה חשפה את החששות של נדב לגבי השקעה בתחום שהוא לא מכיר מספיק. הוא מחפש מידע נוסף כדי להחליט אם להיכנס לתחום ה-e-commerce.</p>
+    </div>
+  </div>
+
+  <div class="score-card">
+    <div class="score-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="45"/>
+        <circle class="fill" cx="50" cy="50" r="45"/>
+      </svg>
+      <div class="score-number">5<span>/10</span></div>
+    </div>
+    <div class="score-text">
+      <h2>ביצועי איש המכירות</h2>
+      <p>הציון ניתן בשל חוסר מיקוד בשיחה וחוסר הבנה מעמיקה של צרכי הלקוח. הנציג לא הצליח להניע את הלקוח לפעולה או לספק לו מידע מספק.</p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <span class="tag">סיכום מנהלים</span>
+    השיחה עם נדב הייתה גיוס ראשוני בתחום ה-e-commerce. נדב, חייל בקבע, הביע עניין בתחום אך חשש מהשקעה ללא ידע מספק. הנציג לא הצליח לספק מידע מספק או להניע את נדב לפעולה. יש צורך בשיפור בהבנת הצרכים והחששות של הלקוח ובמתן מידע ממוקד ומועיל.
+  </div>
+
+  <div class="section-title">פרופיל הלקוח</div>
+  <div class="profile-grid">
+    <div class="profile-card"><div class="icon">🎓</div><div class="val">חייל בקבע</div><div class="lbl">עיסוק</div></div>
+  </div>
+
+  <div class="section-title">נקודות כאב שעלו</div>
+  <div class="grid-2">
+    <div class="pain-card"><div class="pain-icon">⏳</div><div><h4>חוסר זמן</h4><p>נדב ציין שאין לו מספיק זמן להיכנס לתחום כרגע.</p></div></div>
+<div class="pain-card"><div class="pain-icon">💰</div><div><h4>חוסר ידע בהשקעה</h4><p>נדב חושש מהשקעה בתחום שהוא לא מכיר מספיק.</p></div></div>
+  </div>
+
+  <div class="section-title">התנגדויות ואיך הן טופלו</div>
+  <div style="margin-bottom:32px;">
+    <div class="objection-item">
+          <div class="obj-badge yellow">חלקית</div>
+          <div><p>אין לי מספיק זמן להיכנס לתחום כרגע</p>
+          <div class="obj-response"><span class="ok">תגובה סבירה:</span> הנציג הבין את ההתנגדות אך לא הציע פתרון מעשי.</div></div></div>
+  </div>
+
+  <div class="section-title">חוזקות ופערים</div>
+  <div class="sw-grid">
+    <div class="sw-card green">
+      <h3>✅ מה עבד</h3>
+      <div class="sw-item"><div class="sw-dot"></div><div>הקשבה ללקוח</div></div>
+<div class="sw-item"><div class="sw-dot"></div><div>שאלות פתוחות</div></div>
+<div class="sw-item"><div class="sw-dot"></div><div>הבנת התחום</div></div>
+    </div>
+    <div class="sw-card red">
+      <h3>❌ מה לא עבד</h3>
+      <div class="sw-item"><div class="sw-dot"></div><div>חוסר מיקוד</div></div>
+<div class="sw-item"><div class="sw-dot"></div><div>חוסר במידע מספק</div></div>
+<div class="sw-item"><div class="sw-dot"></div><div>לא הניע לפעולה</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">ציטוט זהב מהלקוח</div>
+  <div class="quote-box">
+    <span class="quote-mark">"</span>
+    <blockquote>אני רוצה לקום בבוקר עם הזמנות.</blockquote>
+    <p>הציטוט הזה מייצג את המוטיבציה של נדב להיכנס לתחום ה-e-commerce כדי לייצר הכנסה פסיבית.</p>
+  </div>
+
+  <div class="missed-box">
+    <h4>⚡ רגע שנפספס — שורת מחץ שלא נאמרה</h4>
+    <div class="dialogue">
+      <div class="d-row">
+        <div>
+          <div class="d-label">מה נאמר בפועל</div>
+          <div class="d-bubble actual">מה אתה מחפש, אמא?</div>
+        </div>
+      </div>
+      <div class="d-row" style="justify-content:flex-end;">
+        <div>
+          <div class="d-label" style="text-align:left;">מה היה צריך להיאמר</div>
+          <div class="d-bubble better">מה המידע שחסר לך כדי להחליט אם להיכנס לתחום?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <span class="tip-label">המלצת אימון מרכזית</span>
+    <h3>מיקוד במידע מועיל</h3>
+    <p>הנציג צריך להתמקד במתן מידע רלוונטי ומועיל ללקוח, ולהבין את הצרכים והחששות שלו לעומק.</p>
+    <div class="tip-quote">תמיד תבין מה הלקוח באמת מחפש.</div>
+  </div>
+
+  <div class="section-title">השוואת ביצועים למול סטנדרט</div>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>קריטריון</th>
+        <th>מה קרה בפועל</th>
+        <th>סטנדרט נדרש</th>
+        <th>מצב</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>הבנת צרכי הלקוח</td><td>חוסר מיקוד</td><td>מיקוד והבנה מעמיקה</td><td><span class="badge yellow">חלקי</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">ניתוח מחיר הקיפאון</div>
+  <div class="coi-box">
+    <span class="coi-label">⛔ מה הלקוח מפסיד בכל יום שהוא לא מחליט</span>
+    <div class="coi-grid">
+      <div class="coi-item">
+        <div class="lbl">אובדן שנתי משוער</div>
+        <p>אובדן פוטנציאלי של הכנסה נוספת מהעסק.</p>
+      </div>
+      <div class="coi-item">
+        <div class="lbl">ההשפעה הספציפית על חייו</div>
+        <p>המשך תלות בהכנסה צבאית בלבד.</p>
+      </div>
+    </div>
+    <div class="coi-frame">הפסד של הזדמנות ליצירת חופש כלכלי.</div>
+  </div>
+
+  <div class="section-title">העמקת הפער — לחיצה על הפצע</div>
+  <div class="gap-box">
+    <div class="gap-quote">"אין לי מספיק זמן להיכנס לתחום כרגע."</div>
+    <div class="gap-row">
+      <div class="gap-item">
+        <div class="lbl">מה הנציג עשה בפועל</div>
+        <p>הנציג הבין אך לא הציע פתרון.</p>
+      </div>
+      <div class="gap-item highlight">
+        <div class="lbl">איך היה צריך לטפל רגשית</div>
+        <p>היה צריך לחבר את הכאב של חוסר הזמן להזדמנות ליצירת הכנסה פסיבית.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">שאלות מטלטלות לשיחה הבאה</div>
+  <div class="pq-box">
+    <div class="pq-list">
+      <div class="pq-item"><div class="pq-num">1</div><p>מה יקרה אם תמשיך לדחות את הכניסה לתחום?</p></div>
+<div class="pq-item"><div class="pq-num">2</div><p>איך תרגיש אם תפספס את ההזדמנות לייצר הכנסה נוספת?</p></div>
+<div class="pq-item"><div class="pq-num">3</div><p>מה מונע ממך להתחיל בצעדים קטנים כבר עכשיו?</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">השחזת הסקריפט</div>
+  <div class="script-box">
+    <div class="script-compare">
+      <div class="script-original">
+        <div class="lbl">❌ מה נאמר</div>
+        <p>מה אתה מחפש, אמא?</p>
+      </div>
+      <div class="script-sharp">
+        <div class="lbl">⚡ הגרסה הקטלנית</div>
+        <p>מה המידע שחסר לך כדי להחליט אם להיכנס לתחום?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">ניתוח גורמים פסיכולוגיים עמוקים</div>
+  <div class="deep-factors">
+    <div class="df-card">
+          <div class="df-header">
+            <div class="df-icon">💰</div>
+            <div class="df-title">מצב פיננסי</div>
+            <div class="df-score-badge yellow">6/10</div>
+          </div>
+          <div class="df-body">
+            <div class="df-block">
+              <div class="df-block-label">מה עלה בשיחה</div>
+              <p>נדב הביע חשש מהשקעה ללא ידע מספק.</p>
+            </div>
+            <div class="df-block">
+              <div class="df-block-label">איך הנציג טיפל</div>
+              <p>הנציג לא הציע פתרון כלכלי ברור.</p>
+            </div>
+            <div class="df-improvement df-block">
+              <div class="df-block-label">מה היה אפשר לומר טוב יותר</div>
+              <p>הצעת תוכנית כלכלית ברורה ומותאמת ללקוח.</p>
+            </div>
+          </div>
+        </div>
+<div class="df-card">
+          <div class="df-header">
+            <div class="df-icon">⏳</div>
+            <div class="df-title">דחיינות בשינוי</div>
+            <div class="df-score-badge green">7/10</div>
+          </div>
+          <div class="df-body">
+            <div class="df-block">
+              <div class="df-block-label">מה עלה בשיחה</div>
+              <p>נדב דוחה את ההחלטה להיכנס לתחום.</p>
+            </div>
+            <div class="df-block">
+              <div class="df-block-label">איך הנציג טיפל</div>
+              <p>הנציג לא יצר דחיפות.</p>
+            </div>
+            <div class="df-improvement df-block">
+              <div class="df-block-label">מה היה אפשר לומר טוב יותר</div>
+              <p>הצעת תמריצים להתחלה מיידית.</p>
+            </div>
+          </div>
+        </div>
+<div class="df-card">
+          <div class="df-header">
+            <div class="df-icon">🧭</div>
+            <div class="df-title">קבלת החלטות</div>
+            <div class="df-score-badge yellow">5/10</div>
+          </div>
+          <div class="df-body">
+            <div class="df-block">
+              <div class="df-block-label">מה עלה בשיחה</div>
+              <p>נדב מתלבט ולא בטוח בהחלטתו.</p>
+            </div>
+            <div class="df-block">
+              <div class="df-block-label">איך הנציג טיפל</div>
+              <p>הנציג לא עזר לנדב להחליט.</p>
+            </div>
+            <div class="df-improvement df-block">
+              <div class="df-block-label">מה היה אפשר לומר טוב יותר</div>
+              <p>הצעת כלים לקבלת החלטות מושכלת.</p>
+            </div>
+          </div>
+        </div>
+<div class="df-card">
+          <div class="df-header">
+            <div class="df-icon">👫</div>
+            <div class="df-title">אישה / תמיכה</div>
+            <div class="df-score-badge yellow">5/10</div>
+          </div>
+          <div class="df-body">
+            <div class="df-block">
+              <div class="df-block-label">מה עלה בשיחה</div>
+              <p>לא עלה נושא בן/בת זוג.</p>
+            </div>
+            <div class="df-block">
+              <div class="df-block-label">איך הנציג טיפל</div>
+              <p>לא טופל.</p>
+            </div>
+            <div class="df-improvement df-block">
+              <div class="df-block-label">מה היה אפשר לומר טוב יותר</div>
+              <p>שאלות על תמיכת הסביבה הקרובה.</p>
+            </div>
+          </div>
+        </div>
+<div class="df-card">
+          <div class="df-header">
+            <div class="df-icon">💪</div>
+            <div class="df-title">אמונה עצמית</div>
+            <div class="df-score-badge yellow">6/10</div>
+          </div>
+          <div class="df-body">
+            <div class="df-block">
+              <div class="df-block-label">מה עלה בשיחה</div>
+              <p>נדב לא בטוח ביכולתו להצליח בתחום.</p>
+            </div>
+            <div class="df-block">
+              <div class="df-block-label">איך הנציג טיפל</div>
+              <p>הנציג לא חיזק את הביטחון העצמי.</p>
+            </div>
+            <div class="df-improvement df-block">
+              <div class="df-block-label">מה היה אפשר לומר טוב יותר</div>
+              <p>שימוש בסיפורי הצלחה לחיזוק הביטחון העצמי.</p>
+            </div>
+          </div>
+        </div>
+  </div>
+
+  <div class="protips-box">
+    <span class="pt-label">טיפ טיל להשחזת המכירה</span>
+    <h3>3 עקרונות שישדרגו את השיחה הבאה</h3>
+    <div class="pt-list">
+      <div class="pt-item"><div class="pt-bullet">⚡</div><p>התמקד בהבנת הצרכים האמיתיים של הלקוח.</p></div>
+<div class="pt-item"><div class="pt-bullet">🎯</div><p>השתמש בשאלות עוצמה כדי לחשוף את המוטיבציות של הלקוח.</p></div>
+<div class="pt-item"><div class="pt-bullet">🔥</div><p>הצע פתרונות מעשיים להתנגדויות הלקוח.</p></div>
+    </div>
+  </div>
+
+  <div class="footer">הופק ע"י Sales Call Agent | אביב מלכה · Ecom Club</div>
+</div>
+</body>
+</html>
